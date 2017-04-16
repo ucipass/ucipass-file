@@ -93,4 +93,33 @@ module.exports = class{
 
         return final;
     }
+    hash(mode){
+        var resolve,reject
+        var final = new Promise((res,rej)=>{resolve=res;reject=rej})
+        var crypto = require("crypto")
+        var readline = require("readline")
+        var process = require("process")
+        var file = this
+        var hash = crypto.createHash('md5')
+        var stream = fs.createReadStream(file.fpath);
+        var start = new Date().getTime();
+        stream.on('error', function (err) {
+            console.log("ERROR READING FILE:",err)
+            reject(err)
+            })
+        stream.on('data', function (data) {
+            hash.update(data, 'utf8');
+            })
+        stream.on('end', function () {
+            file.hash = hash.digest('hex');
+            var end = new Date().getTime();
+            var totalTime = end-start;
+            //readline.clearLine(process.stdout, 0)
+            //readline.cursorTo(process.stdout, 0)
+            process.stdout.write( "\nHash: " + file.hash + " Time: " + totalTime.toString() + "ms "+ file.fpath +"\n" )
+            resolve(file)
+            })
+
+        return final;
+    }
 }

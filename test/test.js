@@ -38,7 +38,7 @@ describe("Main Test" , ()=>{
         return file.write(testfile2)
         .then(file=> file.clearBuffer())
         .then(file=> file.read())
-        .then( file => { console.log("Current File",file) ;    return file; } )
+        //.then( file => { console.log("Current File",file) ;    return file; } )
         .then( file => { assert.equal( file.buffer.toString('utf8') , msg) ;  return file } )
     })
     it("Unlink Test",()=>{
@@ -49,6 +49,13 @@ describe("Main Test" , ()=>{
         .then(file=> file.isFile())
         .then( isFile => { assert.equal( isFile, false) ;  return true } )
         //.then( file => { console.log("Current File",file) ;    return file; } )
+    })
+    it.only("Hash Test",()=>{
+        var file = new File(testfile1)
+        return file.hash()
+        //.then( file => { console.log("Current File",file) ;    return file; } )
+        .then( file => { assert.equal( file.hash, "e19d5cd5af0378da05f63f891c7467af") ;  return true } )
+        
     })
 
 })
