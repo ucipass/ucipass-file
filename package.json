@@ -1,0 +1,27 @@
+{
+  "name": "ucipass-file",
+  "version": "1.0.0",
+  "description": "Promise based class for basic file operations",
+  "main": "file.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ucipass/ucipass-file.git"
+  },
+  "keywords": [
+    "file",
+    "promise",
+    "node"
+  ],
+  "author": "ucipass",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ucipass/ucipass-file/issues"
+  },
+  "homepage": "https://github.com/ucipass/ucipass-file#readme",
+  "dependencies": {
+    "mocha": "^3.2.0"
+  }
+}
