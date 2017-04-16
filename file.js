@@ -93,7 +93,7 @@ module.exports = class{
 
         return final;
     }
-    hash(mode){
+    hashfn(mode){
         var resolve,reject
         var final = new Promise((res,rej)=>{resolve=res;reject=rej})
         var crypto = require("crypto")
