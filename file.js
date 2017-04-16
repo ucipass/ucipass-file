@@ -116,7 +116,8 @@ module.exports = class{
             var totalTime = end-start;
             //readline.clearLine(process.stdout, 0)
             //readline.cursorTo(process.stdout, 0)
-            process.stdout.write( "\nHash: " + file.hash + " Time: " + totalTime.toString() + "ms "+ file.fpath +"\n" )
+            //process.stdout.write( "\nHash: " + file.hash + " Time: " + totalTime.toString() + "ms "+ file.fpath +"\n" )
+            //console.log( "\nHash: " + file.hash + " Time: " + totalTime.toString() + "ms "+ file.fpath +"\n" )
             resolve(file)
             })
 

@@ -54,7 +54,9 @@ describe("Main Test" , ()=>{
         var file = new File(testfile1)
         return file.hashfn()
         //.then( file => { console.log("Current File",file) ;    return file; } )
-        .then( file => { assert.equal( file.hash, "e19d5cd5af0378da05f63f891c7467af") ;  return true } )
+        .then( file => { 
+            assert.equal( file.hash, "e19d5cd5af0378da05f63f891c7467af") ;  return true 
+        } )
         
     })
 
