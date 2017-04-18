@@ -93,6 +93,22 @@ module.exports = class{
 
         return final;
     }
+    time(newFilename,mtime,atime){
+        var resolve,reject
+        var final = new Promise((res,rej)=>{resolve=res;reject=rej})
+        var file = newFilename ? newFilename : this.fpath
+
+        fs.utimes(newFilename,atime ? atime: mtime,mtime,(err)=>{
+            if(err) {
+                reject(err)
+            }
+            else{
+                resolve(this)
+            }
+        })
+
+        return final;
+    }
     hashfn(mode){
         var resolve,reject
         var final = new Promise((res,rej)=>{resolve=res;reject=rej})
