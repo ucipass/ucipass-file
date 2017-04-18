@@ -96,8 +96,6 @@ module.exports = class{
     time(mtime,atime){
         var resolve,reject
         var final = new Promise((res,rej)=>{resolve=res;reject=rej})
-        var file = newFilename ? newFilename : 
-
         fs.utimes(this.fpath, atime ? atime: mtime,mtime,(err)=>{
             if(err) {
                 reject(err)
