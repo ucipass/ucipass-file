@@ -1,5 +1,10 @@
 var fs = require("fs")
 var path = require("path")
+var logger = require('winston');
+logger.emitErrs = true;
+logger.loggers.add('FILE', { console: { level: 'debug', label: "FILE", handleExceptions: true, json: false, colorize: true}});
+var log = logger.loggers.get('FILE');
+
 module.exports = class{
     constructor(fpath){
         this.fpath = path.resolve(fpath)
@@ -8,9 +13,19 @@ module.exports = class{
         this.ctime = null
         this.buffer = null
     }
-    name(){return path.basename(this.fpath)}
-    path(){return path.dirname(this.fpath)}
-    clearBuffer(){ this.buffer = null ; return(this)}
+    name(){
+        return path.basename(this.fpath)
+    }
+    path(){
+        return path.dirname(this.fpath)
+    }
+    type(){
+        return path.extname(this.fpath)
+    }
+    clearBuffer(){
+        this.buffer = null ; 
+        return(this)
+    }
     isFile(){
         var resolve,reject
         var final = new Promise((res,rej)=>{resolve=res;reject=rej})
@@ -31,6 +46,7 @@ module.exports = class{
         var final = new Promise((res,rej)=>{resolve=res;reject=rej})
         fs.stat(this.fpath,(err,stat)=>{
             if(err) {
+                log.error(err)
                 reject(err)
             }
             else{
@@ -47,6 +63,7 @@ module.exports = class{
         var final = new Promise((res,rej)=>{resolve=res;reject=rej})
         fs.readFile(this.fpath,(err,buffer)=>{
             if(err) {
+                log.error(err)
                 reject(err)
             }
             else{
@@ -56,18 +73,23 @@ module.exports = class{
         })
         return final;
     }
+    readString(){
+        return this.read()
+        .then(()=> this.buffer.toString('utf8'))
+    }
     write(newFilename){
         var resolve,reject
         var final = new Promise((res,rej)=>{resolve=res;reject=rej})
         var file = newFilename ? newFilename : this.fpath
         var data = this.buffer ? this.buffer : this.fpath
         if (file == data ) {
-            console.log ("Nothing to write")
+            log.info("Nothing to write. Date and File content are the same!")
             resolve(this)
         }
         else{
             fs.writeFile(file,data,(err)=>{
                 if(err) {
+                    log.error(err)
                     reject(err)
                 }
                 else{
@@ -77,6 +99,10 @@ module.exports = class{
         }
         return final;
     }
+    writeString(text){
+        this.buffer = Buffer.from(text, 'utf8');
+        return this.write()
+    }
     unlink(newFilename){
         var resolve,reject
         var final = new Promise((res,rej)=>{resolve=res;reject=rej})
@@ -84,6 +110,24 @@ module.exports = class{
 
         fs.unlink(file,(err)=>{
             if(err) {
+                log.error(err)
+                reject(err)
+            }
+            else{
+                resolve(this)
+            }
+        })
+
+        return final;
+    }
+    rename(newFilename){
+        var resolve,reject
+        var oldfilename = this.fpath;
+        var final = new Promise((res,rej)=>{resolve=res;reject=rej})
+
+        fs.rename(oldfilename,newFilename,(err)=>{
+            if(err) {
+                log.error(err)
                 reject(err)
             }
             else{
@@ -98,6 +142,7 @@ module.exports = class{
         var final = new Promise((res,rej)=>{resolve=res;reject=rej})
         fs.utimes(this.fpath, atime ? atime: mtime,mtime,(err)=>{
             if(err) {
+                log.error(err)
                 reject(err)
             }
             else{
@@ -118,7 +163,7 @@ module.exports = class{
         var stream = fs.createReadStream(file.fpath);
         var start = new Date().getTime();
         stream.on('error', function (err) {
-            console.log("ERROR READING FILE:",err)
+            log.error(err)
             reject(err)
             })
         stream.on('data', function (data) {
