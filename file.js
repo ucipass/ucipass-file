@@ -166,7 +166,7 @@ module.exports = class{
                 if (!keepBuffer) { file.buffer = null}
                 return file
         }
-        if (!file.buffer){
+        if (!file.buffer ){
             return file.read().then(file => hash(file))
         }
         else{
