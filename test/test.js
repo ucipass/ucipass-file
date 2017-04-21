@@ -4,7 +4,7 @@ var assert = require("assert")
 var testfile1 = path.join(__dirname,"./test1.txt")
 var testfile2 = path.join(__dirname,"./test2.txt")
 var msg = "abcd1234"
-var File = require( "..\\file.js")
+var File = require( "../file.js")
 
 
 describe("Main Test" , ()=>{

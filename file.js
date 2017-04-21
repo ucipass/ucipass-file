@@ -152,34 +152,25 @@ module.exports = class{
 
         return final;
     }
-    hashfn(mode){
+    hashfn(keepBuffer){
         var resolve,reject
         var final = new Promise((res,rej)=>{resolve=res;reject=rej})
         var crypto = require("crypto")
         var readline = require("readline")
         var process = require("process")
         var file = this
-        var hash = crypto.createHash('md5')
-        var stream = fs.createReadStream(file.fpath);
-        var start = new Date().getTime();
-        stream.on('error', function (err) {
-            log.error(err)
-            reject(err)
-            })
-        stream.on('data', function (data) {
-            hash.update(data, 'utf8');
-            })
-        stream.on('end', function () {
-            file.hash = hash.digest('hex');
-            var end = new Date().getTime();
-            var totalTime = end-start;
-            //readline.clearLine(process.stdout, 0)
-            //readline.cursorTo(process.stdout, 0)
-            //process.stdout.write( "\nHash: " + file.hash + " Time: " + totalTime.toString() + "ms "+ file.fpath +"\n" )
-            //console.log( "\nHash: " + file.hash + " Time: " + totalTime.toString() + "ms "+ file.fpath +"\n" )
-            resolve(file)
-            })
-
-        return final;
+        function hash(file){
+                var md5 = crypto.createHash('md5')
+                md5.update(file.buffer, 'utf8');
+                file.hash = md5.digest('hex');
+                if (!keepBuffer) { file.buffer = null}
+                return file
+        }
+        if (!file.buffer){
+            return file.read().then(file => hash(file))
+        }
+        else{
+            return hash(file)
+        }
     }
 }
