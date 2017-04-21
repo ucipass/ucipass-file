@@ -26,10 +26,11 @@ module.exports = class{
         this.buffer = null ; 
         return(this)
     }
-    isFile(){
+    isFile(filename){
         var resolve,reject
         var final = new Promise((res,rej)=>{resolve=res;reject=rej})
-        fs.stat(this.fpath,(err,stat)=>{
+	var filename = filename ? filename : this.fpath
+        fs.stat(filename,(err,stat)=>{
             if(err) {
                 resolve(false)
             }
