@@ -1,6 +1,6 @@
 {
   "name": "ucipass-file",
-  "version": "1.0.13",
+  "version": "1.0.15",
   "description": "Promise based class for basic file operations",
   "main": "file.js",
   "scripts": {
@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/ucipass/ucipass-file#readme",
   "dependencies": {
-    "mocha": "^3.2.0",
+    "mocha": "^5.2.0",
     "winston": "^2.3.1"
   }
 }
