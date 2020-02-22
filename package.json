@@ -1,6 +1,6 @@
 {
   "name": "ucipass-file",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "description": "Promise based class for basic file operations",
   "main": "file.js",
   "scripts": {
