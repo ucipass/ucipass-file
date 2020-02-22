@@ -17,8 +17,7 @@ jobs:
       run: echo "//registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN" > .npmrc
       env:
         NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-    - name: NPM Patch
-      run: npm version patch
     - name: NPM Publish
       run: npm publish --access public
+      if: always()
 
