@@ -4,7 +4,7 @@
   "description": "Promise based class for basic file operations",
   "main": "file.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "node ./node_modules/mocha/bin/mocha"
   },
   "repository": {
     "type": "git",
@@ -22,7 +22,9 @@
   },
   "homepage": "https://github.com/ucipass/ucipass-file#readme",
   "dependencies": {
-    "mocha": "^5.2.0",
     "winston": "^2.3.1"
+  },
+  "devDependencies": {
+    "mocha": "^7.0.1"
   }
 }
