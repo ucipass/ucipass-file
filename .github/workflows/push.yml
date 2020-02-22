@@ -18,6 +18,5 @@ jobs:
       env:
         NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
     - name: NPM Publish
-      run: npm publish --access public
-      if: always()
+      run: npm publish --access public || echo "NPM Publish Failed"
 
