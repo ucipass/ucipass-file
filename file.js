@@ -7,7 +7,7 @@ var log = logger.loggers.get('FILE');
 
 module.exports = class{
     constructor(fpath){
-        this.fpath = path.resolve(fpath)
+        this.fpath = path.resolve(fpath ? fpath : "")
         this.size = null
         this.mtime = null
         this.ctime = null
@@ -77,6 +77,10 @@ module.exports = class{
     readString(){
         return this.read()
         .then(()=> this.buffer.toString('utf8'))
+    }
+    readJson(){
+        return this.read()
+        .then(()=> JSON.parse(this.buffer.toString('utf8')))
     }
     write(newFilename){
         var resolve,reject
