@@ -13,10 +13,12 @@ jobs:
       run: npm install 
     - name: NPM Test
       run: npm test
-    - name: NPM Publish
+    - name: NPM Auth
       run: echo "//registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN" > .npmrc
       env:
         NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+    - name: NPM Patch
+      run: npm version patch
     - name: NPM Publish
       run: npm publish --access public
 
